@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>代币收录提交 · 非小号</title>
+  <link rel="icon" type="image/png" href="logo.png" />
+  <link rel="apple-touch-icon" href="logo.png" />
+  <style>
+* , *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root { --bg: #fff; --text: #1a1a1a; --text-muted: #666; --border: #e5e5e5; --brand: #1a8cff; --brand-hover: #0070e0; --border-focus: #1a8cff; --accent: #1a8cff; --accent-hover: #0070e0; --radius: 8px; --shadow: 0 1px 3px rgba(0,0,0,.06); --max-width: 720px; --font: -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; }
+html { font-size: 16px; scroll-behavior: smooth; }
+body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; }
+a { color: var(--brand); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.container { width: 100%; max-width: var(--max-width); margin: 0 auto; padding: 0 20px; }
+.site-header { border-bottom: 1px solid var(--border); background: var(--bg); position: sticky; top: 0; z-index: 100; }
+.site-header .container { display: flex; align-items: center; justify-content: space-between; height: 56px; }
+.logo { display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--text); }
+.logo:hover { text-decoration: none; }
+.logo-img { width: 36px; height: 36px; object-fit: contain; display: block; border-radius: 6px; }
+.logo-text { font-size: 18px; font-weight: 600; }
+.header-nav a { font-size: 14px; color: var(--text-muted); }
+.hero { padding: 40px 0 32px; border-bottom: 1px solid var(--border); margin-bottom: 8px; }
+.hero h1 { font-size: 28px; font-weight: 700; margin-bottom: 12px; }
+.hero-meta { font-size: 14px; color: var(--text-muted); margin-bottom: 8px; }
+.hero-note { font-size: 14px; color: #c0392b; background: #fef5f5; border-left: 3px solid #e74c3c; padding: 10px 14px; border-radius: 0 var(--radius) var(--radius) 0; }
+.listing-form { padding-bottom: 48px; }
+.form-section { border: none; margin: 0; padding: 32px 0; border-bottom: 1px solid var(--border); }
+.form-section legend { font-size: 20px; font-weight: 600; padding: 0; margin-bottom: 24px; display: block; width: 100%; }
+.field { margin-bottom: 24px; }
+.field:last-child { margin-bottom: 0; }
+.field label, .field .label { display: block; font-size: 14px; font-weight: 500; margin-bottom: 8px; }
+.required { color: #e74c3c; }
+.field input[type="text"], .field input[type="email"], .field input[type="url"], .field input[type="date"], .field textarea { width: 100%; padding: 10px 14px; font-size: 15px; font-family: inherit; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg); }
+.field input:focus, .field textarea:focus { outline: none; border-color: var(--brand); box-shadow: 0 0 0 3px rgba(26,140,255,.18); }
+.field textarea { resize: vertical; min-height: 120px; }
+.field-hint { font-size: 12px; color: var(--text-muted); margin-top: 6px; }
+.field-hint.sector-error { color: #e74c3c; }
+.radio-group, .checkbox-group { display: flex; flex-wrap: wrap; gap: 12px 20px; }
+.radio-group.inline { gap: 24px; }
+.radio-group label, .checkbox-group label { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 400; cursor: pointer; margin-bottom: 0; }
+.radio-group input, .checkbox-group input { width: 16px; height: 16px; accent-color: var(--brand); cursor: pointer; }
+.file-upload { position: relative; }
+.file-upload input[type="file"] { display: none; }
+.optional-tag { font-size: 12px; font-weight: 400; color: var(--text-muted); margin-left: 4px; }
+.file-ui { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.file-name { flex: 1; min-width: 160px; font-size: 14px; color: var(--text-muted); padding: 10px 14px; border: 1px dashed var(--border); border-radius: var(--radius); background: #fafafa; }
+.file-name.has-file { color: var(--text); border-style: solid; background: var(--bg); }
+.btn-file { padding: 10px 18px; font-size: 14px; font-family: inherit; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg); cursor: pointer; }
+.payment-section { padding: 32px 0; border-bottom: 1px solid var(--border); }
+.payment-section h2 { font-size: 20px; font-weight: 600; margin-bottom: 16px; }
+.payment-desc strong { color: var(--brand); font-size: 17px; }
+.payment-warning { font-size: 14px; color: #c0392b; margin-bottom: 24px; }
+.wallet-card { border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; margin-bottom: 16px; background: #fafafa; }
+.wallet-card h3 { font-size: 14px; font-weight: 600; margin-bottom: 12px; color: var(--text-muted); }
+.wallet-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.wallet-address { flex: 1; min-width: 0; font-size: 13px; word-break: break-all; background: var(--bg); border: 1px solid var(--border); padding: 10px 12px; border-radius: 6px; }
+.btn-copy { flex-shrink: 0; padding: 10px 16px; font-size: 13px; font-family: inherit; border: none; border-radius: var(--radius); background: var(--brand); color: #fff; cursor: pointer; font-weight: 500; transition: background .15s; }
+.btn-copy:hover { background: var(--brand-hover); }
+.btn-copy.copied { background: #27ae60; }
+.form-actions { padding: 32px 0 16px; text-align: center; }
+.btn-submit { min-width: 200px; padding: 14px 48px; font-size: 16px; font-weight: 600; font-family: inherit; border: none; border-radius: var(--radius); background: var(--brand); color: #fff; cursor: pointer; box-shadow: var(--shadow); transition: background .15s; }
+.btn-submit:hover { background: var(--brand-hover); }
+.btn-submit:disabled { opacity: .6; cursor: not-allowed; }
+.site-footer { border-top: 1px solid var(--border); padding: 24px 0; text-align: center; }
+.site-footer p { font-size: 13px; color: var(--text-muted); }
+.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: #333; color: #fff; padding: 12px 24px; border-radius: var(--radius); font-size: 14px; opacity: 0; pointer-events: none; transition: transform .3s, opacity .3s; z-index: 200; }
+.toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+@media (max-width: 480px) { .hero h1 { font-size: 24px; } .wallet-row { flex-direction: column; } .btn-copy { width: 100%; } }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a href="https://www.feixiaohao.com" class="logo" target="_blank" rel="noopener noreferrer">
+        <img src="logo.png" alt="非小号" class="logo-img" width="36" height="36" />
+        <span class="logo-text">非小号</span>
+      </a>
+      <nav class="header-nav">
+        <a href="https://www.feixiaohao.com" target="_blank" rel="noopener noreferrer">官方网站</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h1>代币收录提交</h1>
+      <p class="hero-meta">
+        官方网站：<a href="https://www.feixiaohao.com" target="_blank" rel="noopener noreferrer">Feixiaohao</a>
+      </p>
+      <p class="hero-note">填写前请认真阅读表格内提示内容，不符合要求的资料将不予受理。</p>
+    </section>
+
+    <form id="listing-form" class="listing-form" novalidate>
+      <!-- 基础信息 -->
+      <fieldset class="form-section">
+        <legend>基础信息</legend>
+
+        <div class="field">
+          <label for="contact-email">联系邮箱 <span class="required">*</span></label>
+          <input type="email" id="contact-email" name="contactEmail" placeholder="请输入邮箱地址" required />
+        </div>
+
+        <div class="field">
+          <label for="token-name">代币名称（Token Name） <span class="required">*</span></label>
+          <input type="text" id="token-name" name="tokenName" placeholder="请输入代币名称" required />
+        </div>
+
+        <div class="field">
+          <label for="ticker">代币简称（Ticker） <span class="required">*</span></label>
+          <input type="text" id="ticker" name="ticker" placeholder="请输入代币简称" required />
+        </div>
+
+        <div class="field">
+          <label for="website">代币官网 <span class="required">*</span></label>
+          <input type="url" id="website" name="website" placeholder="https://example.com" required />
+        </div>
+
+        <div class="field">
+          <label for="contract">合约地址（Contract Address） <span class="required">*</span></label>
+          <input type="text" id="contract" name="contract" placeholder="请输入代币合约地址" required />
+        </div>
+
+        <div class="field">
+          <span class="label">所属公链 <span class="required">*</span></span>
+          <div class="radio-group" role="radiogroup" aria-label="所属公链">
+            <label><input type="radio" name="chain" value="Ethereum" required /> Ethereum</label>
+            <label><input type="radio" name="chain" value="BNB Chain" /> BNB Chain</label>
+            <label><input type="radio" name="chain" value="Solana" /> Solana</label>
+            <label><input type="radio" name="chain" value="Base" /> Base</label>
+            <label><input type="radio" name="chain" value="Arbitrum" /> Arbitrum</label>
+            <label><input type="radio" name="chain" value="Polygon" /> Polygon</label>
+            <label><input type="radio" name="chain" value="Tron" /> Tron</label>
+            <label><input type="radio" name="chain" value="其他" /> 其他</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="launch-date">代币上线日期 <span class="required">*</span></label>
+          <input type="date" id="launch-date" name="launchDate" required />
+        </div>
+
+        <div class="field">
+          <label for="region">项目注册地区 <span class="required">*</span></label>
+          <input type="text" id="region" name="region" placeholder="请输入项目注册地区" required />
+        </div>
+
+        <div class="field">
+          <label for="twitter">官方 Twitter/X <span class="required">*</span></label>
+          <input type="url" id="twitter" name="twitter" placeholder="https://x.com/..." required />
+        </div>
+
+        <div class="field">
+          <label for="telegram">官方 Telegram <span class="required">*</span></label>
+          <input type="url" id="telegram" name="telegram" placeholder="https://t.me/..." required />
+        </div>
+
+        <div class="field">
+          <label for="discord">官方 Discord</label>
+          <input type="url" id="discord" name="discord" placeholder="https://discord.gg/..." />
+        </div>
+
+        <div class="field">
+          <label for="cmc">CoinMarketCap 链接（如有）</label>
+          <input type="url" id="cmc" name="cmc" placeholder="https://coinmarketcap.com/..." />
+        </div>
+
+        <div class="field">
+          <label for="coingecko">CoinGecko 链接（如有）</label>
+          <input type="url" id="coingecko" name="coingecko" placeholder="https://coingecko.com/..." />
+        </div>
+      </fieldset>
+
+      <!-- 项目信息 -->
+      <fieldset class="form-section">
+        <legend>项目信息</legend>
+
+        <div class="field">
+          <span class="label">是否已发币 <span class="required">*</span></span>
+          <div class="radio-group inline" role="radiogroup">
+            <label><input type="radio" name="issued" value="是" required /> 是</label>
+            <label><input type="radio" name="issued" value="否" /> 否</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <span class="label">是否开源合约</span>
+          <div class="radio-group inline" role="radiogroup">
+            <label><input type="radio" name="openSource" value="未知" checked /> 未知</label>
+            <label><input type="radio" name="openSource" value="是" /> 是</label>
+            <label><input type="radio" name="openSource" value="否" /> 否</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <span class="label">是否已审计</span>
+          <div class="radio-group inline" role="radiogroup">
+            <label><input type="radio" name="audited" value="未知" checked /> 未知</label>
+            <label><input type="radio" name="audited" value="是" /> 是</label>
+            <label><input type="radio" name="audited" value="否" /> 否</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="audit-link">审计报告链接（如有）</label>
+          <input type="url" id="audit-link" name="auditLink" placeholder="https://..." />
+        </div>
+
+        <div class="field">
+          <span class="label">代币所属赛道（可多选） <span class="required">*</span></span>
+          <div class="checkbox-group" id="sectors">
+            <label><input type="checkbox" name="sector" value="Meme" /> Meme</label>
+            <label><input type="checkbox" name="sector" value="DeFi" /> DeFi</label>
+            <label><input type="checkbox" name="sector" value="AI" /> AI</label>
+            <label><input type="checkbox" name="sector" value="GameFi" /> GameFi</label>
+            <label><input type="checkbox" name="sector" value="SocialFi" /> SocialFi</label>
+            <label><input type="checkbox" name="sector" value="RWA" /> RWA</label>
+            <label><input type="checkbox" name="sector" value="Infrastructure" /> Infrastructure</label>
+            <label><input type="checkbox" name="sector" value="NFT" /> NFT</label>
+            <label><input type="checkbox" name="sector" value="Launchpad" /> Launchpad</label>
+            <label><input type="checkbox" name="sector" value="Prediction Market" /> Prediction Market</label>
+            <label><input type="checkbox" name="sector" value="其他" /> 其他</label>
+          </div>
+          <p class="field-hint sector-error" id="sector-error" hidden>请至少选择一个赛道</p>
+        </div>
+
+        <div class="field">
+          <label for="intro">项目介绍（100-400字） <span class="required">*</span></label>
+          <textarea id="intro" name="intro" rows="6" placeholder="请输入 100-400 字" required minlength="100" maxlength="400"></textarea>
+          <p class="field-hint"><span id="intro-count">0</span> / 400 字（最少 100 字）</p>
+        </div>
+
+        <div class="field">
+          <label for="contact-telegram">您的 Telegram 联系方式 <span class="required">*</span></label>
+          <input type="text" id="contact-telegram" name="contactTelegram" placeholder="请输入联系人 Telegram" required />
+        </div>
+
+        <div class="field">
+          <label for="official-email">官方邮箱 <span class="required">*</span></label>
+          <input type="email" id="official-email" name="officialEmail" placeholder="请输入官方邮箱" required />
+        </div>
+      </fieldset>
+
+      <!-- 文件上传 -->
+      <fieldset class="form-section">
+        <legend>文件上传</legend>
+
+        <div class="field file-field">
+          <label for="logo">项目 LOGO（尺寸 500px，PNG 格式） <span class="required">*</span></label>
+          <div class="file-upload" data-accept=".png,image/png" data-max="1048576">
+            <input type="file" id="logo" name="logo" accept="image/png" required />
+            <div class="file-ui">
+              <span class="file-name" data-placeholder="未选择任何文件">未选择任何文件</span>
+              <button type="button" class="btn-file">选择文件</button>
+            </div>
+            <p class="field-hint">上传 1 个受支持的文件。大小上限：1 MB。</p>
+          </div>
+        </div>
+
+        <div class="field file-field">
+          <label for="whitepaper">项目白皮书 / 项目介绍（PDF 格式）<span class="optional-tag">（可选）</span></label>
+          <div class="file-upload" data-accept=".pdf,application/pdf" data-max="10485760">
+            <input type="file" id="whitepaper" name="whitepaper" accept="application/pdf" />
+            <div class="file-ui">
+              <span class="file-name" data-placeholder="未选择任何文件">未选择任何文件</span>
+              <button type="button" class="btn-file">选择文件</button>
+            </div>
+            <p class="field-hint">选填，可不上传。如需上传：PDF 格式，大小上限 10 MB。</p>
+          </div>
+        </div>
+
+        <div class="field file-field">
+          <label for="audit-file">审计报告（PNG/PDF 格式）<span class="optional-tag">（可选）</span></label>
+          <div class="file-upload" data-accept=".png,.pdf,image/png,application/pdf" data-max="10485760">
+            <input type="file" id="audit-file" name="auditFile" accept="image/png,application/pdf" />
+            <div class="file-ui">
+              <span class="file-name" data-placeholder="未选择任何文件">未选择任何文件</span>
+              <button type="button" class="btn-file">选择文件</button>
+            </div>
+            <p class="field-hint">选填，可不上传。如需上传：PNG/PDF 格式，大小上限 10 MB。</p>
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- 收录费用 -->
+      <section class="payment-section">
+        <h2>收录费用</h2>
+        <p class="payment-desc">代币收录价格为 <strong>600 USD</strong>，请使用稳定币进行支付。</p>
+        <p class="payment-warning">请务必核对地址后再转账，转账完成后保留付款凭证。</p>
+
+        <div class="wallet-card">
+          <h3>BNB Chain（BEP20）</h3>
+          <div class="wallet-row">
+            <code class="wallet-address" id="addr-bnb">0x0fd0a54dA651d3e9F720675F64659916551a1116</code>
+            <button type="button" class="btn-copy" data-copy="addr-bnb">复制地址</button>
+          </div>
+        </div>
+
+        <div class="wallet-card">
+          <h3>TRON（TRC20）</h3>
+          <div class="wallet-row">
+            <code class="wallet-address" id="addr-tron">TUhijhykgbvf9VzfsE3aWMSEzVcxJfphPt</code>
+            <button type="button" class="btn-copy" data-copy="addr-tron">复制地址</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 付款记录 -->
+      <fieldset class="form-section">
+        <legend>付款记录</legend>
+
+        <div class="field file-field">
+          <label for="payment-screenshot">付款截图 <span class="required">*</span></label>
+          <div class="file-upload" data-accept=".png,.jpg,.jpeg,image/png,image/jpeg" data-max="10485760">
+            <input type="file" id="payment-screenshot" name="paymentScreenshot" accept="image/png,image/jpeg" required />
+            <div class="file-ui">
+              <span class="file-name" data-placeholder="未选择任何文件">未选择任何文件</span>
+              <button type="button" class="btn-file">选择文件</button>
+            </div>
+            <p class="field-hint">请上传转账成功截图（PNG/JPG 格式）。</p>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="tx-hash">交易哈希值（Tx Hash） <span class="required">*</span></label>
+          <input type="text" id="tx-hash" name="txHash" placeholder="请输入链上交易哈希值" required />
+        </div>
+      </fieldset>
+
+      <div class="form-actions">
+        <button type="submit" class="btn-submit">提交</button>
+      </div>
+    </form>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 非小号 Feixiaohao · 代币收录申请</p>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+(function () {
+  var toast = document.getElementById("toast");
+  var toastTimer;
+  function showToast(message) {
+    clearTimeout(toastTimer);
+    toast.textContent = message;
+    toast.classList.add("show");
+    toastTimer = setTimeout(function () { toast.classList.remove("show"); }, 2800);
+  }
+  document.querySelectorAll(".btn-copy").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var id = btn.getAttribute("data-copy");
+      var el = document.getElementById(id);
+      if (!el) return;
+      var text = el.textContent.trim();
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function () {
+          btn.textContent = "已复制";
+          btn.classList.add("copied");
+          showToast("地址已复制到剪贴板");
+          setTimeout(function () { btn.textContent = "复制地址"; btn.classList.remove("copied"); }, 2000);
+        }).catch(function () { fallbackCopy(text); });
+      } else { fallbackCopy(text); }
+      function fallbackCopy(t) {
+        var ta = document.createElement("textarea");
+        ta.value = t; ta.style.position = "fixed"; ta.style.left = "-9999px";
+        document.body.appendChild(ta); ta.select();
+        try { document.execCommand("copy"); showToast("地址已复制"); } catch (e) { showToast("请手动复制地址"); }
+        document.body.removeChild(ta);
+      }
+    });
+  });
+  document.querySelectorAll(".file-upload").forEach(function (wrap) {
+    var input = wrap.querySelector('input[type="file"]');
+    var nameEl = wrap.querySelector(".file-name");
+    var btn = wrap.querySelector(".btn-file");
+    var maxSize = parseInt(wrap.dataset.max, 10);
+    var placeholder = nameEl.dataset.placeholder || "未选择任何文件";
+    btn.addEventListener("click", function () { input.click(); });
+    input.addEventListener("change", function () {
+      var file = input.files[0];
+      if (!file) { nameEl.textContent = placeholder; nameEl.classList.remove("has-file"); return; }
+      if (file.size > maxSize) {
+        showToast("文件过大，请重新选择");
+        input.value = ""; nameEl.textContent = placeholder; nameEl.classList.remove("has-file"); return;
+      }
+      nameEl.textContent = file.name; nameEl.classList.add("has-file");
+    });
+  });
+  var intro = document.getElementById("intro");
+  var introCount = document.getElementById("intro-count");
+  function countChars(str) { return str.length; }
+  intro.addEventListener("input", function () {
+    var len = countChars(intro.value);
+    introCount.textContent = len;
+    introCount.parentElement.style.color = (len < 100 || len > 400) ? "#e74c3c" : "";
+  });
+  var form = document.getElementById("listing-form");
+  var sectorError = document.getElementById("sector-error");
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (form.querySelectorAll('input[name="sector"]:checked').length === 0) {
+      sectorError.hidden = false; return;
+    }
+    sectorError.hidden = true;
+    var introLen = countChars(intro.value.trim());
+    if (introLen < 100 || introLen > 400) { showToast("项目介绍需在 100-400 字之间"); intro.focus(); return; }
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+    var submitBtn = form.querySelector(".btn-submit");
+    submitBtn.disabled = true; submitBtn.textContent = "提交中…";
+    setTimeout(function () {
+      submitBtn.disabled = false; submitBtn.textContent = "提交";
+      showToast("提交成功！我们将在 3-5 个工作日内审核并与您联系。");
+      form.reset(); introCount.textContent = "0";
+      document.querySelectorAll(".file-name").forEach(function (el) {
+        el.textContent = el.dataset.placeholder || "未选择任何文件";
+        el.classList.remove("has-file");
+      });
+    }, 1200);
+  });
+  document.querySelectorAll('input[name="sector"]').forEach(function (cb) {
+    cb.addEventListener("change", function () {
+      if (form.querySelectorAll('input[name="sector"]:checked').length > 0) sectorError.hidden = true;
+    });
+  });
+})();
+  </script>
+</body>
+</html>
